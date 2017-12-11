@@ -1,0 +1,117 @@
+﻿<Page
+    x:Class="MagicMirror.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MagicMirror"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:MagicMirror.ViewModels"
+    mc:Ignorable="d"
+    KeyUp="Page_KeyUp">
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="50">
+        <Grid.Resources>
+            <Storyboard x:Name="animGreeting">
+                <DoubleAnimationUsingKeyFrames
+                    Storyboard.TargetName="txtGreeting"
+                    Storyboard.TargetProperty="Opacity"
+                    Duration="0:0:3"
+                    >
+                    <LinearDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
+                    <LinearDoubleKeyFrame KeyTime="0:0:2" Value="1"/>
+                    <LinearDoubleKeyFrame KeyTime="0:0:3" Value="0"/>
+                </DoubleAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Name="animCameraTimer">
+                <DoubleAnimation
+                    Storyboard.TargetName="rectCameraTimer"
+                    Storyboard.TargetProperty="Width"
+                    From="30" To="0"
+                    Duration="0:0:30"
+                    EnableDependentAnimation="True"
+                    >
+                </DoubleAnimation>
+            </Storyboard>
+            <Storyboard x:Name="animException">
+                <DoubleAnimationUsingKeyFrames
+                    Storyboard.TargetName="txtException"
+                    Storyboard.TargetProperty="Opacity"
+                    Duration="0:0:3"
+                    >
+                    <LinearDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
+                    <LinearDoubleKeyFrame KeyTime="0:0:2" Value="1"/>
+                    <LinearDoubleKeyFrame KeyTime="0:0:3" Value="0"/>
+                </DoubleAnimationUsingKeyFrames>
+            </Storyboard>
+            <DataTemplate x:Key="CalendarEventTemplate" x:DataType="vm:CalendarEventViewModel">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{x:Bind Start}"/>
+                    <Rectangle Width="15" Fill="Transparent"/>
+                    <TextBlock Text="{x:Bind Title}"/>
+                </StackPanel>
+            </DataTemplate>
+        </Grid.Resources>
+        <TextBlock x:Name="txtTime" 
+                   HorizontalAlignment="Right">
+            <Run Text="{x:Bind Path=ViewModel.Time, Mode=OneWay}" 
+                 FontSize="72" 
+                 />
+            <LineBreak />
+            <Run Text="{x:Bind Path=ViewModel.Date, Mode=OneWay}" 
+                 FontSize="24"/>
+        </TextBlock>
+        <TextBlock x:Name="currentWeather"
+                   HorizontalAlignment="Left">
+            <Run Text="{x:Bind Path=ViewModel.CurrentWeather.Temprature, Mode=OneWay}" 
+                 FontSize="72" 
+                 />
+            <LineBreak />
+            <Run Text="{x:Bind Path=ViewModel.CurrentWeather.Description, Mode=OneWay}" 
+                 FontSize="24"/>
+            <LineBreak />
+            <Run Text="{x:Bind Path=ViewModel.CurrentWeather.City, Mode=OneWay}" 
+                 FontSize="14"/>
+            <!--<LineBreak/>
+            <Run Text="{x:Bind Path=ViewModel.LastWeatherUpdateDisplay, Mode=OneWay}"
+                 FontSize="12"/>-->
+        </TextBlock>
+        <TextBlock x:Name="txtGreeting"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Top"
+                   FontSize="72"
+                   Opacity="0">
+
+        </TextBlock>
+        <TextBlock x:Name="txtException"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Bottom"
+                   FontSize="12">
+        </TextBlock>
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0, 10, 10, 0">
+            <Grid Height="50" Width="50">
+                <Image x:Name="imgLogon"
+                    Height="30"
+                    Width="30"
+                    Visibility="Collapsed"
+                    Source="Assets/Logon.png" />
+                <Image x:Name="imgLogoff"
+                    Height="30"
+                    Width="30"
+                    Visibility="Visible"
+                    Source="Assets/Anonymous.png" />
+                <!--<Ellipse Height="50" Width="50" Stroke="White" StrokeThickness="4" Fill="Transparent" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                         StrokeDashArray="1,1">
+                </Ellipse>-->
+            </Grid>
+
+            <Border BorderBrush="Transparent" BorderThickness="1" Width="30" Margin="10" HorizontalAlignment="Stretch">
+                <Rectangle x:Name="rectCameraTimer" Height="10" Width="30" Fill="White" HorizontalAlignment="Left"/>
+            </Border>
+        </StackPanel>
+        <!--<MediaElement x:Name="mediaElement" Width="320" Height="240" AreTransportControlsEnabled="True" VerticalAlignment="Bottom"/>-->
+        <CaptureElement Name="PreviewControl" Width="320" Height="240" Stretch="UniformToFill" VerticalAlignment="Bottom" HorizontalAlignment="Center" Visibility="Collapsed"/>
+        <ItemsControl x:Name="itmsCalendarEvents" ItemsSource="{x:Bind Path=ViewModel.CalendarEvents, Mode=OneWay}" ItemTemplate="{StaticResource CalendarEventTemplate}" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+
+        </ItemsControl>
+        <!--<TextBlock x:Name="txtButtonPressed" HorizontalAlignment="Center" VerticalAlignment="Center"/>-->
+    </Grid>
+</Page>

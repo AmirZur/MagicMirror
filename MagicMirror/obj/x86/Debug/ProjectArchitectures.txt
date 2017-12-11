@@ -1,0 +1,1 @@
+C:\Users\amirz\Source\Repos\MagicMirror\MagicMirror\MagicMirror.csproj;x86
